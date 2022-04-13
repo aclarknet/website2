@@ -1,0 +1,21 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover fs-6 m-0">
+            <thead>
+              <tr class="">
+                <th><i class="fas fa-list-ol"></i></th>
+                <th><i class="fas fa-tasks"></i></th>
+                <th><i class="fa fa-dollar-sign"></i></th>
+                <th><i class="fas fa-archive"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+            {% with url_view='project_view' %}
+              <tr onclick="window.location='{% url 'task_view' item.pk %}'" style="cursor: pointer">
+                <td>{% if items.start_index %}{{ items.start_index|add:forloop.counter|add:"-1" }}{% else %}{{ forloop.counter }}{% endif %}</td>
+                <td>{{ item.name|default:'' }}</td>
+                <td>{{ item.rate|default:'' }}</td>
+                <td>{% if not item.active %}<i class="fas fa-archive text-info"></i>{% endif %}</td>
+            {% endwith %}
+            {% endfor %}
+            </tbody>
+          </table>

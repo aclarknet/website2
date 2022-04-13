@@ -1,0 +1,103 @@
+{% load babel humanize %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              {% if item.name %}<tr><td class="fw-bolder" valign="top">Name</td><td>{{ item.name }}</td></tr>{% endif %}
+              {% if item.hours %}<tr><td class="fw-bolder" valign="top">Hours</td><td>{{ item.hours|intcomma }}</td></tr>{% endif %}
+              {% if item.cost %}<tr><td class="fw-bolder" valign="top">Cost</td><td>{{ item.cost|intcomma }}</td></tr>{% endif %}
+              {% if item.amount %}<tr><td class="fw-bolder" valign="top">Gross</td><td>{{ item.amount|intcomma }}</td></tr>{% endif %}
+              {% if item.net %}<tr><td class="fw-bolder" valign="top">Net</td><td>{{ item.net|intcomma }}</td></tr>{% endif %}
+            </tbody>
+          </table>
+          {% if item.invoices.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder" valign="top">Documents</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0  table-{{ display_mode.bg }} table-hover">
+                    {% for document in item.invoices.all %}
+                    <tr onclick="window.location='{% url 'invoice_view' document.pk %}'" style="cursor: pointer">
+                      <td>{{ document.doc_type }}</td>
+                      <td>{{ document.issue_date }}</td>
+                      <td>{{ document }}</td>
+                      <td class="text-right">{{ document.amount|currencyfmt:"USD" }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}
+          {% if item.projects.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder" valign="top">Projects</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0  table-{{ display_mode.bg }} table-hover">
+                    {% for project in item.projects.all %}
+                    <tr onclick="window.location='{% url 'project_view' project.pk %}'" style="cursor: pointer">
+                      <td>{{ project }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}
+          {% if item.clients.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder" valign="top">Clients</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0  table-{{ display_mode.bg }} table-hover my-0">
+                    {% for client in item.clients.all %}
+                    <tr onclick="window.location='{% url 'client_view' client.pk %}'" style="cursor: pointer">
+                      <td>{{ client.name }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}
+          {% if item.contacts.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder" valign="top">Contacts</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0  table-{{ display_mode.bg }} table-hover my-0">
+                    {% for contact in item.contacts.all %}
+                    <tr onclick="window.location='{% url 'contact_view' contact.pk %}'" style="cursor: pointer">
+                      <td>{{ contact }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}
+          {% if item.notes.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder" valign="top">Notes</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0  table-{{ display_mode.bg }} table-hover my-0">
+                    {% for note in item.notes.all %}
+                    <tr onclick="window.location='{% url 'note_view' note.pk %}'" style="cursor: pointer">
+                      <td>{{ note }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}

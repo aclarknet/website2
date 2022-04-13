@@ -1,0 +1,50 @@
+{% extends 'dashboard.html' %}
+{% block angle_down_icon %}<i class="fas fa-angle-down me-3"></i>{% endblock %}
+{% block dropdown %}
+              <div class="dropdown-menu">
+                <h6 class="dropdown-header">Add</h6>
+                <a class="dropdown-item" href="{% url 'note_edit' %}?user={{ item.pk }}"><i class="fa fa-plus mr-1"></i>Note</a>
+                <h6 class="dropdown-header">Export</h6>
+                <a class="dropdown-item" href="{% url 'user_view' item.pk %}?mail=1"><i class="far fa-envelope mr-1"></i>Mail</a>
+                <a target="_blank" class="dropdown-item" href="{% url 'user_view' item.pk %}?pdf=1"><i class="fas fa-file-pdf mr-1"></i>PDF</a>
+              </div>
+{% endblock %}
+{% block dashboard %}
+    <div class="row my-3">
+      <div class="col-12 text-end">
+        <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+          <a class="btn btn-outline-info" href="{% url 'user_edit' item.pk %}"><i class="fas fa-edit"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mb-5">{% if avatar %}<img class="img-thumbnail rounded-circle" src="{{ avatar }}">{% else %}<i class="far fa-user-circle fa-5x text-success img-thumbnail p-3"></i>{% endif %}</div>
+    {% if request.user.is_staff %}
+    <div class="my-5">
+{% include 'statcards.html' %}
+    </div>
+    {% endif %}
+{% include 'field_table_user.html' %}
+<div class="hr-divider mt-5 mb-3" id="time-entries">
+  <h3 class="hr-divider-content hr-divider-heading">Time Entries</h3>
+</div>
+{% with items=items.times %}
+{% include 'pagination.html' %}
+{% include 'time_index_table.html' %}
+{% include 'pagination.html' %}
+{% endwith %}
+          <div class="row">
+            {% for note in item.profile.note.all %}
+            <div class="col-sm-6">
+              <div class="card border m-1">
+                <div class="card-body">
+                  <h5 class="card-title">{{ note.title|default:'' }}</h5>
+                  <p class="card-text">{{ note.text|safe }}</p>
+{% with url_edit='note_edit' url_view='note_view' url_delete='note_delete' url_copy='note_copy' item=note %}
+{% include 'object_actions.html' %}
+{% endwith %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+{% endblock %}

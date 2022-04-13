@@ -1,0 +1,18 @@
+<!-- https://xhtml2pdf.readthedocs.io/en/latest/format_html.html#frames -->
+<style>
+    @page {
+        size: letter portrait;
+        @frame content_frame {
+            left: 50pt;
+            width: 512pt;
+            top: 50pt;
+            height: 692pt;
+            -pdf-frame-border: 1;    /* for debugging the layout */
+        }
+    }
+</style>
+<div style="text-align: center">
+<h1>{{ item.title }}</h1>
+</div>
+{{ item.text|safe }}
+{% include 'notes.html' %}

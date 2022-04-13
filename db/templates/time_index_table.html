@@ -1,0 +1,29 @@
+{% with url_edit='time_edit' url_view='time_view' %}
+{% load humanize %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover fs-6 m-0">
+            <thead>
+              <tr class="">
+                <th><i class="fas fa-list-ol"></i></th>
+                <th><i class="far fa-calendar"></i></th>
+                <th><i class="far fa-clock"></i></th>
+                <th><i class="fas fa-user"></i></th>
+                <th><i class="fas fa-file"></i></th>
+                <th><i class="fa fa-dollar-sign"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+            {% with user_view='user_view' doc_view='invoice_view' %}
+              <tr onclick="window.location='{% url url_view item.pk %}'" style="cursor: pointer">
+                <td class="text-center">{% if items.start_index %}{{ items.start_index|add:forloop.counter|add:"-1" }}{% else %}{{ forloop.counter }}{% endif %}</td>
+                <td>{{ item.date|default:'' }}</td>
+                <td>{{ item.hours|default:'0.00' }}</td>
+                <td>{{ item.user|default:'' }}</td>
+                <td>{{ item.invoice|default:'' }}</td>
+                <td>{% if item.invoiced %}<i class="fa fa-dollar-sign text-success"></i>{% endif %}</td>
+              </tr>
+              {% endwith %}
+              {% endfor %}
+            </tbody>
+          </table>
+{% endwith %}

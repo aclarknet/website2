@@ -1,0 +1,35 @@
+{% load l10n babel humanize %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover fs-6 m-0">
+            <thead>
+              <tr class="">
+                <th><i class="fas fa-list-ol"></i></th>
+                <th>Name</th>
+                <th>Hours</th>
+                <th>Gross</th>
+                <th>Cost</th>
+                <th>Net</th>
+                <th>Date</th>
+                <th><i class="fas fa-battery-empty"></i></th>
+                <th><i class="fas fa-archive"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+              <tr onclick="window.location='{% url 'report_view' item.pk %}'" style="cursor: pointer">
+                <td>{% if items.start_index %}{{ items.start_index|add:forloop.counter|add:"-1" }}{% else %}{{ forloop.counter }}{% endif %}</td>
+                <td>{{ item.name|default:'' }}</td>
+                <td>{{ item.hours|default:0 }}</td>
+                <td>{{ item.amount|default:0|currencyfmt:"USD" }}</td>
+                <td>{{ item.cost|default:0|currencyfmt:"USD" }}</td>
+                <td>{{ item.net|default:0|currencyfmt:"USD" }}</td>
+                <td>{{ item.date }}</td>
+                <td>
+{% with item=item.invoices.all %}
+{% include 'battery.html' %}
+{% endwith %}
+                </td>
+                <td>{% if not item.active %}<i class="fas fa-archive text-info"></i>{% endif %}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>

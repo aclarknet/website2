@@ -1,0 +1,16 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover fs-6">
+            <thead>
+              <tr class="">
+                <th><i class="fas fa-list-ol"></i></th>
+                <th><i class="fas fa-flag-usa"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+              <tr onclick="window.location='{% url 'account_view' item.pk %}'" style="cursor: pointer">
+                <td class="col-1">{% if items.start_index %}{{ items.start_index|add:forloop.counter|add:"-1" }}{% else %}{{ forloop.counter }}{% endif %}</td>
+                <td>{{ item.name|default:'' }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>

@@ -8,6 +8,7 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
+from aclarknet import views as aclarknet_views
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
@@ -43,6 +44,16 @@ router.register(r"users", UserViewSet)
 urlpatterns = urlpatterns + [
     path("api/", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+]
+
+# aclarknet
+urlpatterns = urlpatterns + [
+    path("about/", aclarknet_views.about, name="about"),
+    path("team/", aclarknet_views.team, name="team"),
+    path("clients/", aclarknet_views.clients, name="clients"),
+    path("contact/", aclarknet_views.contact, name="contact"),
+    path("careers/", aclarknet_views.careers, name="careers"),
+    path("services/", aclarknet_views.services, name="services"),
 ]
 
 urlpatterns = urlpatterns + [

@@ -1,0 +1,16 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover fs-6 m-0">
+            <thead>
+              <tr class="">
+                <th class="col-1"><i class="fas fa-list-ol"></i></th>
+                <th><i class="fas fa-user"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+              <tr onclick="window.location='{% url 'user_view' item.pk %}'" style="cursor: pointer">
+                <td>{% if items.start_index %}{{ items.start_index|add:forloop.counter|add:"-1" }}{% else %}{{ forloop.counter }}{% endif %}</td>
+                <td>{{ item.username }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>

@@ -1,0 +1,34 @@
+<h1 style="text-align: center">{{ item.first_name }} {{ item.last_name }}</h1>
+<h2 style="text-align: center">Rate {{ item.profile.rate }}</h2>
+<table style="border: 1px solid black"> 
+  <thead>
+    <tr style="padding: 1em">
+      <th>#</th>
+      <th>Hours</th>
+      <th>Description</th>
+      <th>Task</th>
+      <th>Invoice</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for time in times %}
+    <tr> 
+      <td align=center>{{ forloop.counter }}</td>
+      <td align=center>{{ time.hours }}</td>
+      <td align=center>{{ time.description }}</td>
+      <td align=center>{{ time.task }}</td>
+      <td align=center>{{ time.invoice|default:'' }}</td>
+      <td align=center>{{ time.amount }}</td>
+    </tr>
+    {% endfor %}
+    <tr style="padding: 1em">
+      <td colspan=3 align=right>
+        <strong>Hours</strong> {{ income.hours }}
+      </td>
+      <td colspan=3 align=right>
+        <strong>Cost</strong> {{ income.cost }}
+      </td>
+    </tr>
+  </tbody>
+</table>

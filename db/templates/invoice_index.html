@@ -1,0 +1,9 @@
+{% extends 'dashboard.html' %}
+{% load l10n %}
+{% block dashboard %}
+{% with items=items.invoices %}
+{% include 'pagination.html' %}
+{% include 'invoice_index_table.html' %}
+{% include 'pagination.html' %}
+{% endwith %}
+{% endblock %}

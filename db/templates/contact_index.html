@@ -1,0 +1,8 @@
+{% extends 'dashboard.html' %}
+{% block dashboard %}
+{% with items=items.contacts %}     
+{% include 'pagination.html' %}
+{% include 'contact_index_table.html' %}
+{% include 'pagination.html' %}
+{% endwith %}
+{% endblock %}

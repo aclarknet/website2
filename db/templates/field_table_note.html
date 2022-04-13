@@ -1,0 +1,69 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              {% if item.title %}<tr><td class="fw-bolder">Title</td><td>{{ item.title|default:'' }}</td></tr>{% endif %}
+              {% if item.text %}<tr><td class="fw-bolder">Text</td><td>{% if item.html %}{{ item.text|safe }}{% else %}{{ item.text}}{% endif %}</td></tr>{% endif %}
+            </tbody>
+          </table>
+          {% if item.account_set.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder col-1" valign="top">Leads</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0  table-{{ display_mode.bg }} table-hover">
+                    <tr>
+                      <th><i class="fas fa-flag-usa"></i></th>
+                    </tr>
+                    {% for lead in item.account_set.all %}
+                    <tr onclick="window.location='{% url 'account_view' lead.pk %}'" style="cursor: pointer">
+                      <td>{{ lead }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}
+          {% if item.notes.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder" valign="top">Notes</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0  table-{{ display_mode.bg }} table-hover">
+                    <tr>
+                      <th><i class="fas fa-paperclip"></i></th>
+                    </tr>
+                    {% for note in item.notes.all %}
+                    <tr onclick="window.location='{% url 'note_view' note.pk %}'" style="cursor: pointer">
+                      <td>{{ note }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}
+          {% if item.note_set.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder" valign="top">Notes</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0  table-{{ display_mode.bg }} table-hover">
+                    <tr>
+                      <th><i class="fas fa-paperclip"></i></th>
+                    </tr>
+                    {% for note in item.note_set.all %}
+                    <tr onclick="window.location='{% url 'note_view' note.pk %}'" style="cursor: pointer">
+                      <td>{{ note }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}

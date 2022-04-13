@@ -1,0 +1,21 @@
+{% extends 'dashboard.html' %}
+{% block angle_down_icon %}<i class="fas fa-angle-down me-3"></i>{% endblock %}
+{% block dropdown %}
+              <div class="dropdown-menu">
+                <h6 class="dropdown-header">Add</h6>
+                <a class="dropdown-item" href="{% url 'note_edit' %}?note={{ item.pk }}"><i class="fas fa-plus-circle me-1"></i>Note</a>
+                <h6 class="dropdown-header">Export</h6>
+                <a class="dropdown-item" href="{% url 'note_view' item.pk  %}?mail=1"><i class="far fa-envelope mr-1"></i>Mail</a>
+              </div>
+{% endblock %}
+{% block dashboard %}
+    <div class="row my-3">
+      <div class="col-12 text-right">
+        {% with url_copy="note_edit" url_delete="note_edit" %}
+{% include 'object_actions.html' %}
+        {% endwith %}
+      </div>
+    </div>
+{% include 'field_table_meta.html' %}
+{% include 'field_table_note.html' %}
+{% endblock %}

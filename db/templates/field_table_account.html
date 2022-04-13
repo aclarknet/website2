@@ -1,0 +1,25 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              {% if item.name %}<tr><td class="fw-bolder">Name</td><td>{{ item.name|default:'' }}</td></tr>{% endif %}
+              {% if item.number %}<tr><td class="fw-bolder">Number</td><td>{{ item.number|default:'' }}</td></tr>{% endif %}
+              {% if item.url %}<tr><td class="fw-bolder">URL</td><td><a class="btn btn-success btn-block btn-lg" target="_blank" href="{{ item.url }}">Open</a></td></tr>{% endif %}
+            </tbody>
+          </table>
+          {% if item.note.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder" valign="top">Notes</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0  table-{{ display_mode.bg }} table-hover">
+                    {% for note in item.note.all %}
+                    <tr onclick="window.location='{% url 'note_view' note.pk %}'" style="cursor: pointer">
+                      <td>{{ note }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}

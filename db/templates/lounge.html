@@ -1,0 +1,23 @@
+{% extends 'dashboard.html' %}
+{% load static webpack_loader %}
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="icon" href="{% static 'img/chat/favicon.ico' %}">
+{% endblock %}
+{% block dashboard %}
+{% if not lounge_away %}
+<div class="ratio ratio-4x3 mt-3">
+  <iframe
+        src="https://aclark.net/lounge-proxy/#/"
+        allowfullscreen>
+  </iframe>
+{% else %}
+  <div class="alert alert-info fs-1" role="alert">
+    Lounge is away . . . <a target="_blank" href="https://aclarknet.slack.com">Slack is back</a>!
+  </div>
+{% endif %}
+</div>
+{% endblock %}
+{% block lounge_btn %}
+disabled
+{% endblock %}

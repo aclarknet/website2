@@ -1,0 +1,123 @@
+{% load babel humanize %}
+            <!-- Include styles here for pdf conversion -->
+            <style>
+              .border-bottom {
+                border-bottom: 1px solid lightgray;
+              }
+              .border-right {
+                border-right: 1px solid lightgray;
+              }
+              #line-items th, #line-items td {
+                padding: 5px;
+              }
+              .field-name {
+                color: gray;
+                padding: 0 3px 0 0;
+              }
+              .field-value {
+                padding: 0 0 0 3px;
+              }
+            </style>
+            <table border=0 style="margin: 0 0 75px 0;">
+              <tr>
+                <td colspan=2 style="font-weight: bold; font-size: 300%;"><h1 style="border-bottom: none;">{{ item.doc_type|default:'Invoice'|upper }}</h1></td>  <!-- Left column -->
+
+                <td valign="top" class="field-name border-right" align="right">From</td>  <!-- Right column -->
+                <td valign="top" class="field-value"><strong>{% if not pdf %}{% if item.company %}<a class="text-decoration-none" href="{% url 'company_view' item.company.pk %}">{{ item.company.name|default:'' }}</a>{% endif %}{% else %}{{ item.company.name|default:''|linebreaksbr }}{% endif %}</strong><br>{{ item.company.address|default:''|linebreaksbr }}</td>
+              </tr>
+              <tr><!-- After "From" and before "Invoice For" --></tr>
+              <tr>
+                <td valign="top" align="left" style="width: 20%" class="field-name border-right">Id</td>  <!-- Left column -->
+                <td valign="top" align="left" style="width: 20%" class="field-value">{{ item.pk|default:'' }}</td>
+                <td rowspan=5 valign="top" align="right" class="field-name border-right">{% if item.user %}Client{% else %}For{% endif %}</td>  <!-- Right column -->
+                <td rowspan=5 valign="top" class="field-value"><!-- Client Name --><strong>{% if item.client and not pdf %}<a style="text-decoration: none" href="{% url 'client_view' item.client.pk %}">{{ item.client.name|default:''|linebreaksbr }}</a>{% else %} {{ item.client.name|default:''|linebreaksbr }} {% endif %}</strong><br><!-- Client Address -->{% if item.client %}{{ item.client.address|default:''|linebreaksbr }}{% endif %}</td>
+              </tr>
+              <tr>
+                <td valign="top" align="left" style="width: 16%" class="field-name border-right">Issue Date</td>  <!-- Left column -->
+                <td valign="top" align="left" style="width: 50%" class="field-value">{{ item.issue_date }}</td>
+              </tr>
+              {% if not item.doc_type == "Task Order" %}<tr>
+                <td valign="top" align="left" style="width: 16%" class="field-name border-right">{% if invoice %}Due Date{% endif %}</td>  <!-- Left column -->
+                <td valign="top" align="left" style="width: 50%" class="field-value">{% if invoice %}{{ item.due_date|default:'' }}{% endif %}</td>
+              </tr>
+              {% else %}<tr>
+                <td></td>
+                <td></td>
+              </tr>{% endif %}
+              <tr>
+                <td valign="top" align="left" style="width: 16%" class="field-name border-bottom border-right">Subject</td>  <!-- Left column -->
+                <td valign="top" align="left" style="width: 50%" class="field-value border-bottom">{{ item.subject }}</td>
+              </tr>
+              {% if item.start_date and item.end_date %}<tr>
+                <td valign="middle" align="left" style="width: 16%" class="field-name border-bottom border-right"><strong>{% if item.start_date and item.end_date %}Period of Performance{% endif %}<strong></td>  <!-- Left column -->
+                <td valign="middle" align="left" style="width: 50%" class="field-value border-bottom"><strong>{% if item.start_date and item.end_date %}{{ item.start_date }}&mdash;{{ item.end_date }}{% endif %}<strong></td>
+              </tr>
+              {% else %}<tr>
+                <td></td> <!-- Avoid index error -->
+              </tr>{% endif %}
+              {% if item.sa_number %}<tr>
+                <td valign="middle" align="left" style="width: 16%" class="field-name border-bottom border-right"><strong>{% if item.sa_number %}Subcontractor Agreement No.{% endif %}<strong></td>  <!-- Left column -->
+                <td valign="middle" align="left" style="width: 50%" class="field-value border-bottom"><strong>{% if item.sa_number %}{{ item.sa_number }}{% endif %}<strong></td>
+              </tr>{% endif %}
+              {% if item.po_number %}<tr>
+                <td valign="middle" align="left" style="width: 16%" class="field-name border-right"><strong>{% if item.po_number %}Purchase Order No.{% endif %}<strong></td>  <!-- Left column -->
+                <td valign="middle" align="left" style="width: 50%" class="field-value"><strong>{% if item.po_number %}{{ item.po_number }}{% endif %}<strong></td>
+              </tr>{% endif %}
+              {% if item.ein %}
+              <tr>
+                <td valign="middle" align="left" style="width: 16%" class="field-name border-right"><strong>{% if item.ein %}EIN No.{% endif %}<strong></td>  <!-- Left column -->
+                <td valign="middle" align="left" style="width: 50%" class="field-value"><strong>{% if item.ein %}{{ item.ein }}{% endif %}<strong></td>
+              </tr>{% endif %}
+              {% if item.user %}<tr>
+                <td></td>
+                <td></td>
+                <td rowspan=5 valign="top" align="right" class="field-name border-right">For</td>  <!-- Right column -->
+                <td rowspan=5 valign="top" class="field-value">{% if item.user and not pdf %}<a style="text-decoration: none" href="{% url 'user_view' item.user.pk %}">{{ item.user.first_name|default:''|linebreaksbr }} {{ item.user.last_name|default:''|linebreaksbr }}</a>{% else %} {{ item.user.first_name|default:''|linebreaksbr }} {{ item.user.last_name|default:''|linebreaksbr }}{% endif %}</td>
+              </tr>{% endif %}
+            </table>
+            <table id="line-items" class="table table-hover table-{{ display_mode.bg }} text-{{ display_mode.text }}">
+              <thead>
+                <tr class="border-bottom">
+                  <th align="left" class="border-right">{% if item.is_sow %}Start Date{% else %}Date{% endif %}</th>
+                  <th align="left" class="border-right">Task</th>
+                  <th align="left" class="border-right">Description</th>
+                  <th align="right" class="border-right">Quantity</th>
+                  <th align="right" class="border-right">Unit Price</th>
+                  <th align="right" class="border-right text-right">Amount</th>
+                  {% if not pdf %}<th class="border-right"><i class="fas fa-user"></i></th>{% endif %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for t in items.times %}
+                <tr class="border-bottom" onclick="window.location='{% url 'time_view' t.pk %}'" style="cursor: pointer">
+                  <td valign="top" align="left" class="border-right" style="width: 20%">{{ t.date|date:'Y-m-d'|default:'' }}</td>
+                  <td valign="top" align="left" class="border-right" style="width: 20%">{{ t.task|default:'' }}</td>
+                  <td valign="top" align="left" class="border-right" style="width: 100%">{{ t.description|linebreaks|default:'' }}</td>
+                  <td valign="top" align="right" class="border-right" style="width: 20%">{{ t.hours|default:'' }}</td>
+                  <td valign="top" align="right" class="border-right" style="width: 20%">{% if item.doc_type == "Task Order" %}{{ item.user.profile.rate }}{% elif t.task %}{{ t.task.rate|default:'' }}{% endif %}</td>
+                  <td valign="top" align="right" class="border-right" style="width: 20%"><strong>{% if t.amount %}{{ t.amount|default:0|currencyfmt:"USD" }}{% endif %}</strong>{% if not pdf %}<div class="row"><div class="col-12"><div class="text-danger">{% if t.cost %}{{ t.cost|default:0|currencyfmt:"USD" }}{% endif %}</div><div class="text-success">{{ t.net|default:0|currencyfmt:"USD" }}</div></div></div>{% endif %}</td>
+                  {% if t.user and not pdf %}<td valign="top" class="border-right"><a class="text-{{ display_mode.text }} text-decoration-none" href="{% url 'user_view' t.user.pk %}">{{ t.user.username }}</a></td>{% endif %}
+                </tr>
+                {% endfor %}
+                <tr>
+                  <td colspan={% if not pdf %}6{% else %}5{% endif %}><h1>Total</h1></td>
+                  <td><h1>{{ item.amount|default:0|currencyfmt:"USD" }}</h1></td>
+                </tr>
+              </tbody>
+            </table>
+            {% if item.note.all %}
+            {% for note in item.note.all %}
+            <div class="row">
+              <div class="col-12 text-right">
+            {% with url_view='note_view' url_edit='note_edit' item=note %}
+{% include 'object_actions.html' %}
+            {% endwith %}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+            {{ note.text|safe }}
+              </div>
+            </div>
+            {% endfor %}
+            {% endif %}

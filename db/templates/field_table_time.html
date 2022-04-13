@@ -1,0 +1,19 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr><td class="fw-bolder">Created</td><td>{{ item.created }}</td></tr>
+              <tr><td class="fw-bolder">Updated</td><td>{{ item.updated }}</td></tr>
+              {% if item.invoiced %}<tr><td class="fw-bolder">Paid</td><td><i class="fa fa-dollar-sign text-success"></i></td></tr>{% endif %}
+              {% if item.date %}<tr><td class="fw-bolder">Date</td><td>{{ item.date }}</td></tr>{% endif %}
+              {% if item.hours %}<tr><td class="fw-bolder">Hours</td><td>{{ item.hours }}</td></tr>{% endif %}
+              {% if item.description %}<tr><td class="fw-bolder">Description</td><td>{{ item.description }}</td></tr>{% endif %}
+            </tbody>
+          </table>
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              {% if item.invoice and request.user.is_staff %}
+              <tr onclick="window.location='{% url 'invoice_view' item.invoice.pk %}'" style="cursor: pointer"><td class="col=1"><i class="fas fa-file-pdf"></i></td><td>{{ item.invoice }}</td></tr>
+              {% if item.task %}<tr onclick="window.location='{% url 'task_view' item.task.pk %}'" style="cursor: pointer"><td class="col-1"><i class="fa fa-tasks"></i></td><td>{{ item.task }}</td></tr>{% endif %}
+              {% endif %}
+              {% if item.user %}<tr onclick="window.location='{% url 'user_view' item.user.pk %}'" style="cursor: pointer"><td class="col-1"><i class="fa fa-user"></i></td><td>{{ item.user }}</td>{% endif %}
+            </tbody>
+          </table>

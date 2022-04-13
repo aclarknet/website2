@@ -1,0 +1,16 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              {% if item.first_name %}<tr><td class="fw-bolder" valign="top">First Name</td><td>{{ item.first_name }}</td></tr>{% endif %}
+              {% if item.last_name %}<tr><td class="fw-bolder" valign="top">Last Name</td><td>{{ item.last_name }}</td></tr>{% endif %}
+              {% if item.email %}<tr><td class="fw-bolder" valign="top">Email</td><td>{{ item.email|default:'' }}</td></tr>{% endif %}
+              {% if item.phone %}<tr><td class="fw-bolder" valign="top">Phone</td><td>{{ item.phone }}</td></tr>{% endif %}
+              {% if item.address %}<tr><td class="fw-bolder" valign="top">Address</td><td>{{ item.address }}</td></tr>{% endif %}
+            </tbody>
+          </table>
+          {% if item.client %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr onclick="window.location='{% url 'client_view' item.client.pk %}'" style="cursor: pointer"><td class="fw-bolder col-1"><i class="fa fa-building"></i></td><td>{{ item.client }}</td></tr>
+            </tbody>
+          </table>
+          {% endif %}

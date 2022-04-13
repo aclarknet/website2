@@ -1,0 +1,29 @@
+{% load humanize %}
+{% if items.items %}
+            {% for model, results in items.items %}
+            {% if results %}
+            <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover my-5">
+              <thead>
+                  <tr> 
+                  <th></th>
+                  <th>
+                    <a href="{% url model|add:'_index' %}" type="button" class="btn btn-lg btn-primary btn-block">
+                    {{ model|add:'s'|title }} <span class="badge bg-secondary">{{ results|length }}</span>
+                    </a>
+                  </th>
+                </tr>
+              </thead>
+              {% for result in results %}
+{% with url_edit=model|add:'_edit' url_view=model|add:'_view' item=result %}
+              <tr onclick="window.location='{% url url_view item.pk %}'" style="cursor: pointer">
+                <td>{% if items.start_index %}{{ items.start_index|add:forloop.counter|add:"-1" }}{% else %}{{ forloop.counter }}{% endif %}</td>
+                <td class="col-12">{{ result }}</td>
+              </tr>
+{% endwith %}
+              {% endfor %}
+            </table>
+            {% endif %}
+            {% endfor %}
+{% else %}
+No results
+{% endif %}

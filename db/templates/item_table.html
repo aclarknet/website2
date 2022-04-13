@@ -1,0 +1,25 @@
+          <table data-toggle="table" data-classes="table">
+            <thead>
+              <tr>
+                <th data-field="counter" data-width="50" data-sortable="true">#</th>
+                <th data-field="active" data-width="50" data-sort-name="hidden-active" data-sortable="true" {% if active %} data-visible="false" {% endif %}>Active</th>
+                <th data-field="hidden-active" data-sortable="true" data-visible="false">Hidden Active</th>
+                <th data-field="name" data-sort-name="hidden-name" data-sortable="true">Name</th>
+                <th data-field="hidden-name" data-sortable="true" data-visible="false">Hidden Name</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><form action="{% url edit_url item.pk %}" method="post">{% csrf_token %}<input type="hidden" value="off" name="checkbox-active"><input type="checkbox" value="on" name="checkbox-active"{% if item.active %} checked {% endif %} onChange="this.form.submit()"></form></td>
+                <td>{{ item.active }}</td>
+                <td>
+                  <a class="text-decoration-none" href="{% url view_url item.pk %}">{{ item.name|default:'Item' }}</a>
+                  <a href="{% url edit_url item.pk %}"><i class="far fa-edit"></i></a>
+                </td>
+                <td>{{ item.name|default:'Item' }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>

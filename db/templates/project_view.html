@@ -1,0 +1,21 @@
+{% extends 'dashboard.html' %}
+{% load humanize static %}
+{% block angle_down_icon %}<i class="fas fa-angle-down me-3"></i>{% endblock %}
+{% block dropdown %}
+              <div class="dropdown-menu">
+                <h6 class="dropdown-header">Add</h6>
+                {% if item.task %}<a class="dropdown-item" href="{% url 'invoice_edit' %}?project={{ item.pk }}"><i class="fa fa-plus mr-1"></i>Invoice</a>{% else %}<a class="dropdown-item" href="{% url 'task_edit' %}?client={{ item.client.pk }}&project={{ item.pk }}"><i class="fas fa-plus-circle me-1"></i>Task</a>{% endif %}
+                <a class="dropdown-item" href="{% url 'note_edit' %}?project={{ item.pk }}"><i class="fas fa-plus-circle me-1"></i>Note</a>
+              </div>
+{% endblock %}
+
+{% block dashboard %}
+    <div class="row my-3">
+      <div class="col-12 text-right">
+{% with url_copy="time_edit" url_delete="project_edit" %}
+{% include 'object_actions.html' %}
+{% endwith %}
+      </div>
+    </div>
+{% include 'field_table_project.html' %}
+{% endblock %}

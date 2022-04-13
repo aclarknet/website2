@@ -1,0 +1,8 @@
+            <!-- Search -->
+            <form class="sidebar-form" action="{% url 'search_index' %}" method="post">{% csrf_token %}
+              <input class="form-control" name="q" type="text" placeholder="Search...">
+              <button type="submit" class="btn-link">
+                <span class="icon icon-magnifying-glass"></span>
+              </button>
+            </form>
+

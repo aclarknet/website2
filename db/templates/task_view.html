@@ -1,0 +1,18 @@
+{% extends 'dashboard.html' %}
+{% block angle_down_icon %}<i class="fas fa-angle-down me-3"></i>{% endblock %}
+{% block dropdown %}
+            <div class="dropdown-menu">
+              <h6 class="dropdown-header">Add</h6>
+              <a class="dropdown-item" href="{% url 'invoice_edit' %}?project={{ item.project.pk }}"><i class="fas fa-plus-circle me-1"></i>Invoice</a>
+            </div>
+{% endblock %}
+{% block dashboard %}
+    <div class="row my-3">
+      <div class="col-12 text-right">
+{% with url_copy="task_edit" url_delete="task_edit" %}
+{% include 'object_actions.html' %}
+{% endwith %}
+      </div>
+    </div>
+{% include 'field_table_task.html' %}
+{% endblock %}

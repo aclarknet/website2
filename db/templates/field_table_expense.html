@@ -1,0 +1,22 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              {% if item.name %}
+              <tr>
+                <td class="fw-bolder" valign="top">Name</td>
+                <td>{{ item.name }}</td>
+              </tr> 
+              {% endif %}
+              {% if item.description %}
+              <tr>
+                <td class="fw-bolder" valign="top">Description</td>
+                <td>{{ item.description }}</td>
+              </tr>
+              {% endif %}
+              {% if item.amount %}
+              <tr>
+                <td class="fw-bolder" valign="top">Amount</td>
+                <td>{{ item.amount }}</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>

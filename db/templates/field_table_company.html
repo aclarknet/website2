@@ -1,0 +1,8 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              {% if item.name %}<tr><td class="fw-bolder" valign="top">Name</td><td>{{ item.name }}</td></tr>{% endif %}
+              {% if item.address %}<tr><td class="fw-bolder" valign="top">Address</td><td>{{ item.address }}</td></tr>{% endif %}
+              {% if item.description %}<tr><td class="fw-bolder" valign="top">Description</td><td>{{ item.description }}</td></tr>{% endif %}
+              {% if item.url %}<tr><td class="fw-bolder" valign="top">Website</td><td><a class="text-decoration-none" href="{{ item.url }}" target="_blank">{{ item.url }}</a></td></tr>{% endif %}
+            </tbody>
+          </table>

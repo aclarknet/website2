@@ -1,0 +1,61 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped">
+            <tbody>
+              <tr><td class="fw-bolder" valign="top">Created</td><td>{{ item.created }}</td></tr>
+              <tr><td class="fw-bolder" valign="top">Updated</td><td>{{ item.updated }}</td></tr>
+              {% if item.start_date %}<tr><td class="fw-bolder" valign="top">Start date</td><td>{{ item.start_date }}</td></tr>{% endif %}
+              {% if item.description %}<tr><td class="fw-bolder" valign="top">Description</td><td>{{ item.description|safe }}</td></tr>{% endif %}
+
+            </tbody>
+          </table>
+          {% if item.client %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr onclick="window.location='{% url 'client_view' item.client.pk %}'" style="cursor: pointer"><td class="fw-bolder col-1" valign="top">Client</td><td>{{ item.client }}</td></tr>
+            </tbody>
+          </table>
+          {% endif %}
+          {% if items.invoices %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder" valign="top">Documents</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0 table-{{ display_mode.bg }} table-hover">
+                    {% for invoice in items.invoices %}
+                    <tr onclick="window.location='{% url 'invoice_view' invoice.pk %}'" style="cursor: pointer">
+                      <td>{{ invoice.doc_type|default:'' }}</td>
+                      <td>{{ invoice.issue_date }}</td>
+                      <td>{{ invoice }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}
+          {% if item.task %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr onclick="window.location='{% url 'task_view' item.task.pk %}'" style="cursor: pointer"><td class="fw-bolder col-1" valign="top">Task</td><td>{{ item.task }}</td></tr>
+            </tbody>
+          </table>
+          {% endif %}
+          {% if item.team.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="col-1">Team</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0 table-{{ display_mode.bg }} table-hover">
+                    {% for user in item.team.all %}
+                    <tr onclick="window.location='{% url 'user_view' user.pk %}'" style="cursor: pointer">
+                      <td>{{ user }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}

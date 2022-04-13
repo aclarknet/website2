@@ -1,0 +1,46 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped">
+            <tbody>
+              {% if item.name %}<tr> <td class="fw-bolder" valign="top">Name</td><td>{{ item.name }}</td></tr>{% endif %}
+              {% if item.address %}<tr><td class="fw-bolder" valign="top">Address</td><td>{{ item.address|safe }}</td></tr>{% endif %}
+              {% if item.description %}<tr><td class="fw-bolder" valign="top">Description</td><td>{{ item.description|safe }}</td></tr>{% endif %}
+              {% if item.url %}<tr><td class="fw-bolder" valign="top">Website</td><td><a class="text-decoration-none" href="{{ item.url}}" target="_blank">{{ item.url }}</a></td></tr>{% endif %}
+            </tbody>
+          </table>
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              {% if items.projects %}
+              <tr>
+                <td class="fw-bolder" valign="top">Projects</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0 table-{{ display_mode.bg }} table-hover">
+                    {% for project in items.projects %}
+                    <tr onclick="window.location='{% url 'project_view' project.pk %}'" style="cursor: pointer">
+                      <td>{{ project.start_date|default:'' }}</td>
+                      <td>{{ project.end_date|default:'' }}</td>
+                      <td>{{ project }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+          {% if item.contact_set.all %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr>
+                <td class="fw-bolder col-1" valign="top">Contacts</td>
+                <td class="p-0">
+                  <table class="table table-borderless table-striped my-0 table-{{ display_mode.bg }} table-hover">
+                    {% for contact in item.contact_set.all %}
+                    <tr onclick="window.location='{% url 'contact_view' contact.pk %}'" style="cursor: pointer">
+                      <td>{{ contact }}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}

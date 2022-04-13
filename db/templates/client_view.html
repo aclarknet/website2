@@ -1,0 +1,19 @@
+{% extends 'dashboard.html' %}
+{% block angle_down_icon %}<i class="fas fa-angle-down me-3"></i>{% endblock %}
+{% block dropdown %}
+              <div class="dropdown-menu">
+                <h6 class="dropdown-header">Add</h6>
+                <a class="dropdown-item" href="{% url 'project_edit' %}?client={{ item.pk }}&user={{ request.user }}"><i class="fas fa-plus-circle me-1"></i>Project</a>
+                <a class="dropdown-item" href="{% url 'contact_edit' %}?client={{ item.pk }}"><i class="fas fa-plus-circle me-1"></i>Contact</a>
+              </div>
+{% endblock %}
+{% block dashboard %}
+    <div class="row my-3">
+      <div class="col-12 text-right">
+{% with url_copy="client_edit" url_delete="client_edit" %}
+{% include 'object_actions.html' %}
+{% endwith %}
+      </div>
+    </div>
+{% include 'field_table_client.html' %}
+{% endblock %}

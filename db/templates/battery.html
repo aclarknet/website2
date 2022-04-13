@@ -1,0 +1,9 @@
+                  {% if item|length > 1500 %}
+                  <i class="fas fa-battery-full"></i>
+                  {% elif item|length > 750 %}
+                  <i class="fas fa-battery-half"></i>
+                  {% elif item|length > 0 %}
+                  <i class="fas fa-battery-quarter"></i>
+                  {% else %}
+                  <i class="fas fa-battery-empty"></i>
+                  {% endif %}

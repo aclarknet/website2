@@ -1,0 +1,12 @@
+{% extends 'dashboard.html' %}
+{% load humanize static %}
+{% block dashboard %}
+    <div class="row my-3">
+      <div class="col-12 text-right">
+{% with url_copy="time_edit" url_delete="time_edit" %}
+{% include 'object_actions.html' %}
+{% endwith %}
+      </div>
+    </div>
+{% include 'field_table_time.html' %}
+{% endblock %}

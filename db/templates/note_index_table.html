@@ -1,0 +1,28 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover fs-6 m-0"> 
+            <thead>
+              <tr class="">
+                <th><i class="fas fa-list-ol"></i></th>
+                <th class="col-3"><i class="fas fa-calendar"></i></th>
+                <th class="col-3"><i class="fas fa-calendar"></i></th>
+                <th><i class="fas fa-paperclip"></i></th>
+                <th><i class="fas fa-battery-empty"></i></th>
+                <th><i class="fas fa-archive"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+              <tr onclick="window.location='{% url 'note_view' item.pk %}'" style="cursor: pointer">
+                <td class="text-center">{% if items.start_index %}{{ items.start_index|add:forloop.counter|add:"-1" }}{% else %}{{ forloop.counter }}{% endif %}</td>
+                <td>{{ item.created }}</td>
+                <td>{{ item.updated }}</td>
+                <td>{{ item.title|default:'' }}</td>
+                <td>
+{% with item=item.text %}
+{% include 'battery.html' %}
+{% endwith %}
+                </td>
+                <td class="text-info">{% if not item.active %}<i class="fas fa-archive"></i>{% endif %}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>

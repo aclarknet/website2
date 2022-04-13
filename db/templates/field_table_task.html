@@ -1,0 +1,16 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr><td class="fw-bolder">Name</td><td>{{ item.name }}</td></tr>
+              <tr><td class="fw-bolder">Rate</td><td>{{ item.rate }}</td></tr>
+              <tr><td class="fw-bolder">Unit</td><td>{{ item.unit }}</td></tr>
+            </tbody>
+          </table>
+          {% if item.project %}
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody>
+              <tr onclick="window.location='{% url 'project_view' item.project.pk %}'" style="cursor: pointer">
+                <td class="fw-bolder"><i class="fas fa-project-diagram"></i></td><td>{{ item.project }}</td>
+              </tr>
+            </tbody>
+          </table>
+          {% endif %}

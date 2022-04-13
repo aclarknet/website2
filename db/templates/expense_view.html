@@ -1,0 +1,11 @@
+{% extends 'dashboard.html' %}
+{% block dashboard %}
+    <div class="row my-3">
+      <div class="col-12 text-right">
+        {% with url_copy="expense_edit" url_delete="expense_edit" %}
+{% include 'object_actions.html' %}
+        {% endwith %}
+      </div>
+    </div>
+{% include 'field_table_expense.html' %}
+{% endblock %}

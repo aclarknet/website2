@@ -1,0 +1,30 @@
+          <table data-toggle="table" data-classes="table">
+            <thead>
+              <tr> 
+                <th data-field="counter" data-sortable="true">#</th>
+
+                <th data-field="name" data-sortable="true">Name</th>
+
+                <th data-field="active" data-sort-name="hidden-active" data-sortable="true" {% if active %} data-visible="false" {% endif %}><input type="checkbox"></th>
+                <th data-field="hidden-active" data-sortable="true" data-visible="false">Hidden Active</th>
+
+                <th data-field="actions"></th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+              <tr class="{% if item.active %}bg-{{ display_mode.text }}{% endif %}">
+                <td>{{ forloop.counter }}</td>
+
+                <td>{{ item.name|default:'Item' }}</td>
+
+                <td><form action="{% url url_edit item.pk %}" method="post">{% csrf_token %}<input type="hidden" value="off" name="checkbox-active"><input type="checkbox" value="on" name="checkbox-active"{% if item.active %} checked {% endif %} onChange="this.form.submit()"></form></td>
+                <td>{{ item.active }}</td>
+
+                <td valign="top" style="border: none">
+{% include 'actions.html' %}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>

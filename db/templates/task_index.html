@@ -1,0 +1,8 @@
+{% extends 'dashboard.html' %}
+{% block dashboard %}
+{% with items=items.tasks %}
+{% include 'pagination.html' %}
+{% include 'task_index_table.html' %}
+{% include 'pagination.html' %}
+{% endwith %}
+{% endblock %}

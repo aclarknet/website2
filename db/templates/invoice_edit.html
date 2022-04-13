@@ -1,0 +1,25 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+{% block dashboard %}
+    <div class="row">
+      <a class="text-decoration-none text-end text-info" href="#formset"><i class="far fa-arrow-alt-circle-down fa-4x"></i></a>
+      <div class="col-12">
+        <form action="" method="post">{% csrf_token %}
+{% with model_index=model_name|add:'_index' %}
+{% include 'save.html' %}
+{% endwith %}
+          <input type="hidden" name="referer" value="{{ referer }}"><!-- https://stackoverflow.com/a/35796559/185820 -->
+          <input type="hidden" name="context_type" value="{{ context_type }}"><!-- https://stackoverflow.com/a/35796559/185820 -->
+          <input type="hidden" name="model_name" value="{{ model_name }}"><!-- https://stackoverflow.com/a/35796559/185820 -->
+          {{ form|crispy }}
+{% with model_index=model_name|add:'_index' %}
+{% if item %}
+          <div id="formset"></div>
+{% include 'invoice_formset.html' %}
+{% endif %}
+{% include 'save.html' %}
+{% endwith %}
+        </form>
+      </div>
+    </div>
+{% endblock %}

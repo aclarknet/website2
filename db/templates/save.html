@@ -1,0 +1,7 @@
+    <div class="row">
+      <div class="col-12 text-right my-3">
+        {% if request.user.is_staff %}<a class="btn btn-lg btn-outline-secondary" href="{% url model_index %}">Cancel</a>{% else %}<a class="btn btn-lg btn-outline-secondary" href="{% url 'dashboard' %}">Cancel</a>{% endif %}
+        <input class="btn btn-lg btn-outline-{{ display_mode.text }}" type="submit" value="Save">
+      </div>
+    </div>
+    

@@ -1,0 +1,6 @@
+{% extends 'dashboard.html' %}
+{% block dashboard %}
+{% with items=items.companys %}
+{% include 'company_index_table.html' %}
+{% endwith %}
+{% endblock %}

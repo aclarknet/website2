@@ -1,0 +1,148 @@
+{% extends 'root/home_page.html' %}
+{% load webpack_loader static wagtailcore_tags %}
+{% block brand %}
+      <a class="border p-3 navbar-brand text-white text-uppercase" href="/db">ACLARK.NET</a>
+{% endblock %}
+{% block extra_css %}
+{% if request.user.profile.dark %}
+    {% stylesheet_pack 'dashboard' %}
+{% else %}
+    {% stylesheet_pack 'dashboard-light' %}
+{% endif %}
+{% endblock %}
+{% block title %}
+    ACLARK.NET &mdash; Database
+{% endblock %}
+{% block content %}
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-md-3 sidebar">
+        <nav class="sidebar-nav">
+          <div class="sidebar-header">
+            <button class="nav-toggler nav-toggler-md sidebar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-toggleable-md">
+              <span class="sr-only">Toggle nav</span>
+            </button>
+          </div>
+          <div class="collapse nav-toggleable-md" id="nav-toggleable-md">
+{% include 'search_form.html' %}
+            <ul class="nav nav-pills nav-stacked flex-column">
+              <li class="nav-header">Dashboard</li>
+              <li class="nav-item">
+                <a class="nav-link {% if dashboard %}active{% endif %}" href="{% url 'dashboard' %}">Overview</a>
+              </li>
+              {% if request.user.is_staff %}
+              <hr class="hr-divider">
+              <li class="nav-item"><a class="nav-link {% if model_name == "invoice" %}active{% endif %}" href="{% url 'invoice_index' %}">Documents</a></li>
+              <li class="nav-item"><a class="nav-link {% if model_name == "project" %}active{% endif %}" href="{% url 'project_index' %}">Projects</a></li>
+              <li class="nav-item"><a class="nav-link {% if model_name == "client" %}active{% endif %}" href="{% url 'client_index' %}">Clients</a></li>
+              <li class="nav-item"><a class="nav-link {% if model_name == "time" %}active{% endif %}" href="{% url 'time_index' %}">Times</a></li>
+              <li class="nav-item"><a class="nav-link {% if model_name == "user" %}active{% endif %}" href="{% url 'user_index' %}">Users</a></li>
+              <li class="nav-item"><a class="nav-link {% if model_name == "task" %}active{% endif %}" href="{% url 'task_index' %}">Tasks</a></li>
+              <li class="nav-item"><a class="nav-link {% if model_name == "contact" %}active{% endif %}" href="{% url 'contact_index' %}">Contacts</a></li>
+              <hr class="hr-divider">
+              <li class="nav-item"><a class="nav-link {% if model_name == "expense" %}active{% endif %}"href="{% url 'expense_index' %}">Expenses</a></li>
+              <li class="nav-item"><a class="nav-link {% if model_name == "account" %}active{% endif %}" href="{% url 'account_index' %}">Leads</a></li>
+              <li class="nav-item"><a class="nav-link {% if model_name == "note" %}active{% endif %}" href="{% url 'note_index' %}">Notes</a></li>
+              <li class="nav-item"><a class="nav-link {% if model_name == "report" %}active{% endif %}" href="{% url 'report_index' %}">Reports</a></li>
+              <li class="nav-item"><a class="nav-link {% if model_name == "company" %}active{% endif %}"href="{% url 'company_index' %}">Companies</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="col-md-9 content">
+        {% block message %}
+        <div id="messages">
+          {% if messages %}
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+              <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </symbol>
+            </svg>
+            {% for message in messages %}
+              <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#check-circle-fill"/></svg>
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        {% endblock %}
+        <div class="dashhead my-3">
+          <div class="dashhead-titles">
+            <h6 class="dashhead-subtitle">Dashboard</h6>
+            <h1 class="dashhead-title">{{ model_name|default:'Overview'|title }}</h1>
+          </div>
+          <div class="btn-toolbar dashhead-toolbar d-flex">
+            <div class="btn-toolbar-item input-with-icon">
+              {% comment %} -------------------------------- Add Model ---------------------------------------- {% endcomment %}
+              {% if request.user.is_staff %}
+              <div class="dropdown">
+                {% if model_name %}
+                  {% with model_name|add:'_edit'|lower as url_edit %}
+                    <a class="btn btn-lg btn-outline-{{ display_mode.text }}"
+                        href="{% url url_edit %}"
+                        >{% block angle_down_icon %}{% endblock %}Add {{ model_name|title }}</a>
+                  {% endwith %}
+                {% else %}
+                  <a class="btn btn-lg btn-outline-{{ display_mode.text }}" href="{% url 'time_edit' %}">Add Time</a>
+                {% endif %}
+                {% block dropdown %}
+                {% endblock %}
+              </div>
+              {% comment %} -------------------------------- Add Time ---------------------------------------- {% endcomment %}
+              {% else %}
+              <a class="btn btn-lg btn-outline-{{ display_mode.text }}" href="{% url 'time_edit' %}">Add Time</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="hr-divider mt-5 mb-3">
+          <h3 class="hr-divider-content hr-divider-heading"></h3>
+        </div>
+        {% block dashboard %}
+{% include 'statcards.html' %}
+        {% if request.user.is_staff %}
+{% with items=items.invoices %}
+{% include 'pagination.html' %}
+{% include 'invoice_index_table.html' %}
+{% include 'pagination.html' %}
+{% endwith %}
+        <div class="d-flex justify-content-center">
+          <a href="{% url 'invoice_index' %}" class="btn my-5 btn-lg btn-outline-{{ display_mode.text }}">All Documents</a>
+        </div>
+        {% else %} {% comment %} Not Staff {% endcomment %}
+{% with items=items.times %}
+{% include 'pagination.html' %}
+{% include 'time_index_table.html' %}
+{% include 'pagination.html' %}
+{% endwith %}
+        <div class="d-flex justify-content-center">
+          <a href="{% url 'user_view' request.user.pk %}#time-entries" class="btn my-5 btn-lg btn-outline-secondary">All Time Entries</a>
+        </div>
+        {% endif %}
+{% endblock %}
+      </div>
+    </div>
+  </div>
+  <div id="docsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Example modal</h4>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body text-dark">
+        <p>You're looking at an example modal in the dashboard theme.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cool, got it!</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+{% javascript_pack 'dashboard' %}
+{% endblock %}

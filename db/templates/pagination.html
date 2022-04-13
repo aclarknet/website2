@@ -1,0 +1,49 @@
+          {% if items %}
+          <!-- https://www.codeply.com/go/U3sXVBzDK4/bootstrap-4-center-btn-toolbar -->
+          <div class="text-center">
+            <div class="d-inline-block">
+              <div class="btn-toolbar my-3"> 
+
+                <!-- Count -->
+                <div class="btn-group mr-2">
+
+                  <!-- Page -->
+                  {% if items.paginator %}<button class="btn btn-outline-info" disabled>Page {{ items.number }} of {{ items.paginator.num_pages }}</button>{% endif %}{% if not items.paginator %}<button class="btn btn-outline-info" disabled>Page 1 of 1</button>{% endif %}
+
+                  <!-- Items -->
+                  {% if items.paginator %}<button type="button" class="btn btn-outline-info" disabled>Items {{ items.start_index }} to {{ items.end_index }} of {{ items.paginator.count }}</button>{% endif %}{% if not items.paginator %}<button type="button" class="btn btn-outline-info" disabled>Items 1 to {{ items.count|default:'?' }} of {{ items.count|default:'?' }}</button>{% endif %}
+                </div>
+
+                {% if items.paginator.count > 10 %}
+                <!-- Next/Prev -->
+                <div class="btn-group mr-2">
+
+                  <!-- Prev -->
+                  {% if items.has_previous %}<a class="btn btn-outline-{{ display_mode.text }}" href="?page=1"><i class="fa fa-step-backward"></i></a><a class="btn btn-outline-{{ display_mode.text }}" href="?page={{ items.previous_page_number }}"><i class="fa fa-chevron-circle-left"></i></a>{% endif %}{% if not items.has_previous %}<button class="btn btn-outline-{{ display_mode.text }}" disabled><i class="fa fa-step-backward text-muted"></i></button><button class="btn btn-outline-{{ display_mode.text }}" disabled><i class="fa fa-chevron-circle-left text-muted"></i></button>{% endif %}
+
+                  <!-- Next -->
+                  {% if items.has_next %}<a class="btn btn-outline-{{ display_mode.text }}" href="?page={{ items.next_page_number }}"><i class="fa fa-chevron-circle-right"></i></a> <a class="btn btn-outline-{{ display_mode.text }}" href="?page={{ items.paginator.num_pages }}"><i class="fa fa-step-forward"></i></a>{% endif %}{% if not items.has_next %}<button class="btn btn-outline-{{ display_mode.text }}" disabled><i class="fa fa-chevron-circle-right text-muted"></i></button><button class="btn btn-outline-{{ display_mode.text }}" disabled><i class="fa fa-step-forward text-muted"></i></button>{% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Show all or paginated -->
+                <div class="btn-group mr-2">
+                  {% if items.paginator %}{% if items.paginator.count > 10 %}<a class="btn btn-outline-{{ display_mode.text }}" href="?paginated=false">Show all</a>{% endif %}{% endif %}{% if not items.paginator %}<a class="btn btn-outline-{{ display_mode.text }}" href="?paginated=true">Show paginated</a>{% endif %}
+                </div>
+
+                <!-- Hours entered vs approved -->
+                {% if not model_name %}
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                  <button type="button" class="btn btn-outline-success" disabled><strong>Hours</strong></button>
+                  <button type="button" class="btn btn-outline-success" disabled><strong>Entered:</strong> {{ hours.entered|default:0.00 }}</button>
+                  <button type="button" class="btn btn-outline-success" disabled><strong>Approved:</strong> {{ hours.approved|default:0.00 }}</button>
+                </div>
+                {% endif %}
+
+                <!-- django-tables2 -->
+                {% if request.user.is_staff and model_name == "client" %}<a class="btn btn-outline-{{ display_mode.text }}" href="{% url 'client-list' %}?per_page=100"><i class="fa fa-tasks"></i></a>{% endif %}
+
+              </div>
+            </div>
+          </div>
+          {% endif %}

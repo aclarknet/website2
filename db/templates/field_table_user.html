@@ -1,0 +1,9 @@
+          <table class="table table-{{ display_mode.bg }} table-bordered table-striped table-hover">
+            <tbody> 
+              <tr><td class="fw-bolder" valign="top">Username</td><td>{{ item.username }}</td></tr>
+              <tr><td class="fw-bolder" valign="top">Rate</td><td>{{ item.profile.rate|default:0 }}</td></tr>
+              <tr><td class="fw-bolder" valign="top">Bio</td><td>{{ item.profile.bio|safe }}</td></tr>
+              <tr><td class="fw-bolder" valign="top">Address</td><td>{{ item.profile.address }}</td></tr>
+              <tr><td class="fw-bolder" valign="top">Dark Mode</td><td>{{ item.profile.dark }}</td></tr>
+            </tbody>
+          </table>

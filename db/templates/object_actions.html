@@ -1,0 +1,96 @@
+    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+      <!-- Edit --> <a type="button" class="btn btn-outline-info" href="{% url url_edit item.pk %}"><i class="fas fa-edit"></i></a>
+      <!-- Copy --> {% if url_copy %}<a type="button" class="btn btn-outline-info" href="#copyModal" data-bs-toggle="modal"><i class="fas fa-clone"></i></a>{% endif %}
+      <!-- Delete --> {% if url_delete %}<a type="button" class="btn btn-outline-info" href="#deleteModal" data-bs-toggle="modal"><i class="fas fa-trash-alt"></i></a>{% endif %}
+      <!-- Open --> {% if url_open and item.url %}<a target="_blank" type="button" class="btn btn-outline-info" href="{{ item.url }}"><i class="fas fa-external-link-alt"></i></a>{% endif %}
+      <!-- View --> {% if url_view %}<a type="button" class="btn btn-outline-info" href="{% url url_view item.pk %}"><i class="fas fa-chevron-right"></i></a>{% endif %}
+    </div>
+    <!-- Copy form modal -->
+    <div id="copyModal" class="modal fade bd-copy-modal-sm text-{{ display_mode.text }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure?</h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-dark">
+              You are about to copy {{ item }}
+          </div>
+          <div class="modal-footer">
+            <form action="{% url url_edit item.pk %}" method="post">{% csrf_token %}
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn btn-outline-primary" name="copy" type="submit" value="copy" onChange="this.form.submit()">Copy</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Delete form modal -->
+    <div id="deleteModal" class="modal fade bd-delete-modal-sm text-{{ display_mode.text }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure?</h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-dark">
+              You are about to delete {{ item }}
+          </div>
+          <div class="modal-footer">
+            <form action="{% url url_edit item.pk %}" method="post"> {% csrf_token %}
+              <input type="hidden" name="referer" value="{{ referer }}"><!-- https://stackoverflow.com/a/35796559/185820 -->
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn btn-outline-danger" name="delete" type="submit" value="delete" onChange="this.form.submit()">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Paid form modal -->
+    <div id="paidModal" class="modal fade bd-invoiced-true-modal-sm text-{{ display_mode.text }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure?</h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-dark">
+              You are about to mark this item paid.
+          </div>
+          <div class="modal-footer">
+            <form action="{% url url_edit item.pk %}" method="post">
+              {% csrf_token %}
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn btn-outline-success" name="invoiced" type="submit" value="true" onChange="this.form.submit()">Paid</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="notPaidModal" class="modal fade bd-invoiced-false-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure?</h4>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-dark">
+              You are about to mark this item not paid.
+          </div>
+          <div class="modal-footer">
+            <form action="{% url url_edit item.pk %}" method="post">{% csrf_token %}
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn btn-outline-danger" name="invoiced" type="submit" value="false" onChange="this.form.submit()">Not paid</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>

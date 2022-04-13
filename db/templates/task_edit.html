@@ -1,0 +1,20 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+{% block dashboard %}
+    <div class="row">
+      <div class="col-12">
+        <form action="" method="post">{% csrf_token %}
+{% with model_index=model_name|add:'_index' %}
+{% include 'save.html' %}
+{% endwith %}
+          <input type="hidden" name="referer" value="{{ referer }}"><!-- https://stackoverflow.com/a/35796559/185820 -->
+          <input type="hidden" name="context_type" value="{{ context_type }}"><!-- https://stackoverflow.com/a/35796559/185820 -->
+          <input type="hidden" name="model_name" value="{{ model_name }}"><!-- https://stackoverflow.com/a/35796559/185820 -->
+          {{ form|crispy }}
+{% with model_index=model_name|add:'_index' %}
+{% include 'save.html' %}
+{% endwith %}
+        </form>
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% load crispy_forms_tags %}
+        {% crispy time_formset formset_helper_time %}
+        <div class="btn-group d-flex btn-group-lg py-3 justify-content-evenly">
+          <a class="btn btn-lg flex-fill btn-outline-info" href="{% url 'invoice_edit' item.pk %}?time-extra={{ time_extra }}&time-minus=1">-</a>
+          <a class="btn btn-lg flex-fill btn-outline-info" href="{% url 'invoice_edit' item.pk %}?time-extra={{ time_extra }}&time-plus=1">+</a>
+        </div>

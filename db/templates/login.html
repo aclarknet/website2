@@ -1,0 +1,27 @@
+{% extends 'root/home_page.html' %}
+{% load static %}
+{% block content %}
+  <div class="block">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h1>Sign In</h2>
+          <a class="text-dark" href="{% url 'social:begin' 'github' %}"><i class="fab fa-github-square fa-5x text-{{ display_mode.text }} p-5"></i></a>
+          <div class="separator my-5">Or</div>
+          <form class="form-signin" action="{% url 'login' %}" method="POST">{% csrf_token %}
+            <label for="inputEmail" class="sr-only">Username</label>
+            <input type="text" id="inputEmail" name="username" class="form-control" placeholder="Username" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+            <div class="my-5">
+              <button type="submit" class="btn btn-lg btn-outline-dark }}">Sign In</button>
+            </div>
+            <div class="my-3">
+              <a href="{% url 'password_reset' %}" class="text-decoration-none text-dark">Forgot password?</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

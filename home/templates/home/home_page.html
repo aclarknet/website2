@@ -1,26 +1,356 @@
 {% extends "base.html" %}
-{% load webpack_loader static %}
-{% block body_class %}template-homepage{% endblock %}
+{% load webpack_loader static wagtailcore_tags %}
 {% block extra_css %}
-  {% stylesheet_pack 'app' %}
-{% endblock extra_css %}
-{% block content %}
-{% load webpack_loader static %}
-<div class="jumbotron py-5">
+    {% stylesheet_pack 'app' %}
+{% endblock %}
+{% block title %}
+{% include "title.html" %}
+{% endblock %}
+{% block header %}
+{% include 'root/offcanvas.html' %}
+<div class="block block-inverse app-header"
+     style="background-color: #3883AC;
+            background-image: url({% static 'img/startup-1.jpg' %});
+            background-position: -40px 0px;
+            background-repeat: repeat-x;">
   <div class="container">
-    <a href="/" class="text-decoration-none text-dark"><h1 class="display-3">Hello, world!</h1></a>
-    <p>This is a template for a simple marketing or informational website. It includes a large callout called a
-      jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
-      <a type="button" class="btn btn-primary" href="{% url 'admin:index' %}" role="button">Django Admin</a>
-      <a type="button" class="btn btn-primary" href="/api" target="_blank" role="button">Web Browseable API</a>
+    <div class="row">
+      <div class="col-10 offset-1">
+    <nav class="navbar navbar-transparent navbar-expand-md">
+{% block brand %}
+      <a class="border navbar-brand text-white text-uppercase" href="/">aclark.net</a>
+{% endblock %}
+      <button class="btn btn-lg navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"></button>
+      <div class="d-none d-md-block text-uppercase ms-auto">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link text-light {% if home_nav %}border-bottom {% endif %}" href="/">Home</a>
+          </li>
+          <li class="nav-item dropdown"><!-- https://stackoverflow.com/a/29668214/185820 -->
+            <a class="nav-link text-light {% if about_nav %}border-bottom {% endif %}" href="{% url 'about' %}" id="navbarDropdown" role="button" data-hover="dropdown" aria-haspopup="true" aria-expanded="false">
+              About
+            </a>
+            <div class="dropdown-menu text-capitalize" aria-labelledby="navbarDropdown">
+              <a class="nav-link" href="/#mission">Mission</a>
+              <a class="nav-link" href="/#pillow">Pillow</a>
+              <a class="nav-link" href="/#technology">Technology</a>
+              <a class="nav-link" href="/#testimonials">Testimonials</a>
+              <a class="nav-link" href="{% url 'team' %}">Team</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link text-light {% if services_nav %}border-bottom {% endif %}" href="/services">Services</a>
+            <div class="dropdown-menu text-capitalize" aria-labelledby="navbarDropdown">
+              <a class="nav-link" href="/services#consulting">Consulting</a>
+              <a class="nav-link" href="/services#software">Software</a>
+              <a class="nav-link" href="/services#systems">Systems</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light {% if clients_nav %}border-bottom {% endif %}" href="{% url 'clients' %}">Clients</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light {% if careers_nav %}border-bottom {% endif %}" href="{% url 'careers' %}">Careers</a>
+          </li>
+          <li class="nav-item ms-5 me-4">
+            <a class="nav-link btn btn-outline-light text-nowrap px-3" href="{% url 'contact' %}">Contact Us</a>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <div class="dropdown text-end">
+              <a href="#" class="text-decoration-none dropdown-toggle text-white" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="far fa-user-circle text-white"></i>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownUser1">
+                {% if not request.user.is_staff %}<li><a class="dropdown-item text-capitalize" href="{% url 'time_edit' %}">Add Time</a></li>{% endif %}
+                <li><a class="dropdown-item text-capitalize" href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a class="dropdown-item text-capitalize" href="{% url 'user_view' request.user.pk %}">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                {% if request.user.is_superuser %}<li><a target="_blank" class="dropdown-item text-capitalize" href="{% url 'admin:index' %}">Django Admin</a></li>{% endif %}
+                <li><a class="dropdown-item text-capitalize" href="{% url 'logout' %}">Sign out</a></li>
+              </ul>
+            </div>
+          </li>
+          {% else %}
+            <a id="user-menu" class="nav-link text-light" href="{% url 'login' %}"><i class="far fa-user-circle"></i></a>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="block d-none d-md-block app-ribbon">
+  <div class="container text-xs-center">
+    <div id="messages">
+      {% if messages and request.user.is_anonymous %}
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+          <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+          </symbol>
+        </svg>
+        {% for message in messages %}
+          <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#check-circle-fill"/></svg>
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
     </div>
-    <div class="d-flex justify-content-center">
-      <img src="{% static 'vendors/images/webpack.png' %}" class="img-fluid"/>
+    <h5 class="text-light text-uppercase">Professional Python&reg; and open source consulting and programming since 2004</h5>
+  </div>
+</div>
+{% include 'carousel.html' %}
+<div class="block app-price-plans">
+  <div class="container text-xs-center">
+    <div class="row">
+      <div class="col-md-10 offset-1">
+        <h6 class="text-dark" id="mission">Mission</h6>
+        <p class="text-dark text-start">Our goal since 2004 has been to advance the use of open source software and related technology. We have maintained this focus by successfully undertaking a variety of professional endeavors throughout the years including, but not limited to the following: Alex Clark is the creator and project lead for Pillow; we are the organizers and leaders of DC Python, a 501(c)(3) organization; we were the lead organizers and hosts of Plone Conference 2008; we consistently provide successful open source software development, consulting, training, hosting and support for numerous organizations in the U.S. and all over the world, from Amtrak to USAID. We will continue to reinforce and expand our commitment, outreach, and involvement with both open source technology and the community that depends on it.</p>
+      </div>
     </div>
   </div>
 </div>
-{% endblock content %}
+<div class="block block-inverse block-secondary app-code-block" id="pillow">
+  <div class="container">
+    <div class="row app-align-center">
+      <div class="col-md-5 offset-1 order-1">
+        <h6 class="text-muted text-uppercase">Pillow</h6>
+        <h2 class="mb-3">Python Imaging Library (fork)</h2>
+{% comment %}
+        <p class="lead fs-5 text-light"><img id="pillow-logo" class="float-start img-fluid" src="{% static 'img/pillow-logo.png' %}">In 2010, Alex Clark created Pillow, a software development fork of the venerable Python Imaging Library. As of early 2017, Pillow has been downloaded over <span class="fw-bold">15 million times</span>, can be found in many major Linux distributions such as Ubuntu and Fedora Core, and is used by Fortune-100-serving companies like Atlassian. <img id="tidelift-logo" class="float-end img-fluid" src="{% static 'img/Tidelift_logo_for-dark.png' %}">As of 2019, professional Pillow support is available from <a class="text-decoration-none text-light" target="_blank" href="https://tidelift.com/subscription/pkg/pypi-pillow">Tidelift</a>.</p>
+{% endcomment %}
+        <p>In 2010, Alex Clark created Pillow, a software development fork of the venerable Python Imaging Library (PIL). As of early 2017, Pillow has been downloaded over <span class="fw-bold">15 million times</span>. The Pillow library can be found in many major Linux distributions such as Ubuntu and Fedora Core. It is used by many Fortune-100-serving companies and was even used in April 2021 on the Mars 2020 Helicopter Mission!</p>
+        <div class="btn-group mb-5 mt-3">
+          <a target="_blank" href="https://python-pillow.org" class="btn btn-lg btn-outline-light text-nowrap" aria-current="page">Learn more</a>
+          <a target="_blank" href="https://tidelift.com/subscription/pkg/pypi-pillow" class="btn btn-lg btn-outline-light text-nowrap">Get support</a>
+        </div>
+      </div>
+      <div class="col-md-5 offset-1 order-2">
+<pre class="app-code">
+<span>1</span> &gt;&gt;&gt; from PIL import Image
+<span>2</span> &gt;&gt;&gt; im = Image.open("hopper.ppm")
+<span>3</span>
+<span>5</span> &gt;&gt;&gt; print(im.format, im.size, im.mode)
+<span>6</span> PPM (512, 512) RGB</pre>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="block block-secondary block-inverse app-publications">
+  <div class="container">
+    <div class="row app-align-center">
+      <div class="col-md-5 offset-1">
+        <h6 class="text-light text-uppercase">Book</h6>
+        <p class="fs-4 text-light">The approach presented in Alex Clark's instructional text book <span class="fw-bold">Plone 3.3 Site Administration</span> helps users create, deploy, and maintain all versions of Plone up to and including the latest version.</p>
+        <p class="fs-4 text-light">The text covers Plone basics from a site administrator's perspective including (but not limited to) instructions on how to:</p>
+        <ul class="list-spaced fs-4">
+          <li>Learn the use of Buildout to develop, deploy, and maintain a modern Plone site.</li>
+          <li>Enhance the functionality and appearance of your web site by using third-party add-ons.</li>
+          <li>Learn to use many useful Buildout recipes available to download from the Python Package Index.</li>
+        </ul>
+      </div>
+      <div class="col-md-5 offset-1 text-center">
+        <img id="book-logo" class="img-fluid img-thumbnail bg-transparent my-3 p-3" src="{% static 'img/7047_plone20site20admincov.jpg' %}">
+      <a target="_blank" class="btn btn-lg btn-outline-light mt-5" href="https://www.packtpub.com/web-development/plone-33-site-administration">Buy book</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="block block-inverse app-high-praise" id="testimonials" style="background-image: url({% static 'img/iStock-951514270.jpg' %});">
+  <div class="container">
+    <div class="row app-align-center">
+      <div class="col-md-5 offset-1 testimonial">
+        <h6 class="text-light text-uppercase d-none d-md-block">Testimonials</h6>
+        <h2 class="d-none d-md-block">{{ testimonial.body|richtext }}</h2>
+        <h4 class="text-light d-none d-md-block">{{ testimonial.title }}</h4>
+        {{ testimonial.description|richtext }}
+        <a class="btn btn-lg btn-outline-light" href="/testimonials" role="button">More testimonials</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="block app-ribbon app-ribbon-clients d-none d-md-block text-center">
+  <div class="container"> 
+    <h6 class="text-light" id="mission">Clients</h6>
+    <img class="col-2" src="{% static 'img/amtrak-logo__white.svg' %}">
+    <img class="col-2" src="{% static 'img/nasa-logo.png' %}">
+    <img class="col-2" src="{% static 'img/National_Geographic_Logo_2016.png' %}">
+    <img class="col-2" src="{% static 'img/Horizontal_RGB_294.png' %}">
+  </div>
+  <a class="btn btn-lg btn-outline-light mt-3" href="{% url 'clients' %}">More clients</a>
+</div>
+<div class="block block-secondary text-dark" id="technology">
+  <div class="container text-xs-center">
+    <div class="row text-center">
+      <div class="col-11 offset-1 mx-auto justify-content-center">
+        <h6 class="text-dark text-uppercase mb-3" id="technology">Technology</h6>
+        <h2 class="mb-3">Wagtail</h2>
+        <img src="{% static 'img/wagtail-logo.png' %}">
+{% comment %}
+        <p class="lead fs-5 text-dark"><img class="float-start" src="{% static 'img/wagtail-logo.png' %}">
+          As of 2020, <a class="text-dark" target="_blank" style="text-decoration: none" href="https://wagtail.io">Wagtail</a> has become our preferred framework for building Python-based web applications. While it's admittedly more of a CMS framework then an out-of-the-box-CMS ("built by developers for developers"), it's quite pleasant to work with for all involved (developers, content editors, end users, etc.) and yields impressive results for all.</p>
+
+{% endcomment %}
+        <p>We have recently added Wagtail to our list of preferred frameworks for building Python-based web applications. It is a CMS framework rather than an out-of-the-box-CMS ("built by developers for developers"). We are highly proficient in developing with Wagtail and are able to deliver impressive results using this adaptable technology.</p>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-12 mx-auto justify-content-center mb-5">
+        <a class="btn btn-lg btn-outline-dark" href="{% url 'contact' %}">Build a Wagtail site</a>
+      </div>
+    </div>
+    <div class="row app-marketing-grid">
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">Amazon Web Services</h2>
+        <i class="fab fa-aws fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">Bootstrap</h2>
+        <i class="fab fa-bootstrap fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">CSS</h2>
+        <i class="fab fa-css3 fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">CentOS</h2>
+        <i class="fab fa-centos fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">Docker</h2>
+        <i class="fab fa-docker fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">Font Awesome</h2>
+        <i class="fab fa-font-awesome fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">GitHub</h2>
+        <i class="fab fa-github fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">HTML</h2>
+        <i class="fab fa-html5 fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">JavaScript</h2>
+        <i class="fab fa-js fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">Jenkins</h2>
+        <i class="fab fa-jenkins fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">Linux</h2>
+        <i class="fab fa-linux fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">NPM</h2>
+        <i class="fab fa-npm fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">Python</h2>
+        <i class="fab fa-python fa-5x"></i>
+      </div>
+      <div class="col-md-4 p-5">
+        <h2 class="text-dark">Ubuntu</h2>
+        <i class="fab fa-ubuntu fa-5x"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="block block-inverse block-secondary app-dcpython">
+  <div class="container">
+    <div class="row app-align-center">
+      <div class="col-md-5 offset-1">
+        <h6 class="text-uppercase">DC Python</h6>
+        <p>In 2008, we created ZPUGDC, Inc., a 501(c)(3) non-profit organization known as the DC Python User's Group. We created this organization in an effort to expand our outreach and give back to the users and supporters of open source technology. DC Python is focused primarily on serving members of the local Washington, D.C., Maryland, and Virginia Python community, but we also support a larger area and scope of open-source technology efforts, worldwide. One of our most significant global contributions was the organization and hosting of the international Plone Conference 2008.</p>
+        <p>We continue to maintain our leadership responsibilities in the DC Python organization. We provide management and facilitate regular meetings, sprints, and many other Python-related events and activities for the local Python community. We assume all responsibilities for the organization ensuring a continued commitment to its mission.</p>
+        <a target="_blank" class="btn btn-lg btn-outline-light mt-5" href="https://dcpython.org">Learn more</a>
+      </div>
+      <div class="col-md-5 offset-1">
+        <img class="img-fluid img-thumbnail bg-transparent my-3 p-3" src="{% static 'img/ploneconf.png' %}" style="width: 75%">
+        <img class="img-fluid img-thumbnail bg-transparent my-3 p-3" src="{% static 'img/ploneconf-group.jpg' %}" style="width: 75%">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block footer %}
+<div class="block block-inverse app-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-3 offset-1">
+        <h6 class="text-uppercase">Blog</h6>
+        <ul class="list-unstyled list-spaced">
+          <li class="text-muted">
+            <p>Alex Clark has been blogging since 2007 about a variety of technical and other topics. Read his blog to learn about Django, Pillow, Plone, Python, Open Source and more.</p>
+          </li>
+        </ul>
+        <a target="_blank" class="btn btn-outline-light btn-lg" href="https://blog.aclark.net">View blog</a>
+      </div>
+      <div class="col-2">
+        <ul class="list-unstyled list-spaced">
+          <li><h6 class="text-uppercase"><a class="text-decoration-none" href="{% url 'about' %}">About</a></h6></li>
+          <li><a class="text-muted text-decoration-none" href="/#mission">Mission</a></li>
+          <li><a class="text-muted text-decoration-none" href="/#pillow">Pillow</a></li>
+          <li><a class="text-muted text-decoration-none" href="/#technology">Technology</a></li>
+          <li><a class="text-muted text-decoration-none" href="/#testimonials">Testimonials</a></li>
+          <li><a class="text-muted text-decoration-none" href="{% url 'team' %}">Team</a></li>
+        </ul>
+      </div>
+      <div class="col-2">
+        <ul class="list-unstyled list-spaced">
+          <li><h6 class="text-uppercase"><a class="text-decoration-none" href="/services">Services</a></h6></li>
+          <li><a class="text-muted text-decoration-none" href="/services#consulting">Consulting</a></li>
+          <li><a class="text-muted text-decoration-none" href="/services#software">Software</a></li>
+          <li><a class="text-muted text-decoration-none" href="/services#systems">Systems</a></li>
+        </ul>
+      </div>
+      <div class="col-2">
+        <ul class="list-unstyled list-spaced">
+          <li><h6 class="text-uppercase"><a class="text-decoration-none" href="{% url 'dashboard' %}">Staff</a></h6></li>
+          <li>{% if not request.user.is_anonymous %}<a class="text-muted text-decoration-none" href="{% url 'dashboard' %}">Dashboard</a>{% else %}<a class="text-muted text-decoration-none" href="/admin">Sign In</a>{% endif %}</li>
+          <li>{% if not request.user.is_anonymous %}<a class="text-muted text-decoration-none" href="{% url 'lounge' %}">Lounge</a>{% endif %}</li>
+          <li>{% if not request.user.is_anonymous %}<a class="text-muted text-decoration-none" href="{% url 'doc' %}">Doc</a>{% endif %}</li>
+          <li>{% if not request.user.is_anonymous %}<a class="text-muted text-decoration-none" href="{% url 'user_view' request.user.id %}">Profile</a>{% endif %}</li>
+          <li>{% if request.user.is_staff %}<a class="text-muted text-decoration-none" href="{% url 'admin:index' %}">Admin</a>{% endif %}
+          <li>{% if not request.user.is_anonymous %}<a class="text-muted text-decoration-none" href="{% url 'logout' %}?next=/">Sign out</a>{% endif %}</li>
+        </ul>
+      </div>
+      <div class="col-2">
+        <a class="nav-link btn btn-lg btn-outline-light px-3" style="overflow: hidden" href="{% url 'contact' %}">Contact us</a>
+        <div class="text-center mt-5">
+          <a href="#"><i class="far fa-arrow-alt-circle-up fa-4x"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <ul class="text-muted list-inline text-center">
+          <li class="list-inline-item"><a target="_blank" href="https://linkedin.com/company/aclarknetllc"><i class="fab fa-linkedin fa-2x"></i></a></li>
+          <li class="list-inline-item"><a target="_blank" href="https://facebook.com/aclarknet"><i class="fab fa-facebook fa-2x"></i></a></li>
+          <li class="list-inline-item"><a target="_blank" href="https://twitter.com/aclarknet"><i class="fab fa-twitter fa-2x"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-center">
+      <span class="text-muted btn-outline rounded">&copy; 2022 ACLARK.NET, LLC. All Rights Reserved.</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
 {% block extra_js %}
-{% javascript_pack 'app' 'app2' attrs='charset="UTF-8"' %}
+    {% javascript_pack 'app' attrs='charset="UTF-8"' %}
 {% endblock %}
