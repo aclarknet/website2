@@ -1,0 +1,21 @@
+{% extends 'root/home_page.html' %}
+{% load webpack_loader static %}
+{% block content %}
+    <div class="block block-secondary">
+      <div class="container">
+        <div class="row app-align-center">
+          <div class="col-12 ms-auto">
+            <h6 class="text-uppercase text-center mb-5">About</h6>
+            <p>ACLARK.NET has a highly professional approach to software development. We have been providing straightforward, best of breed, secure, proven technology solutions since 2004. Careful, thorough consideration is given to every client's needs. We maximize and optimize technology to deliver superior results. We never compromise quality or security, focusing solely on a long-term, successful project outcome.</p>
+
+            <p>Our experience and expertise includes extensive work with corporations, educational systems and institutions, small businesses, non-profits, and government organizations. In addition, we have an extensive network of top-tier professionals we partner with to provide a turn-key solution to all of your technology needs.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-center">
+            <a class="btn btn-lg border border-mute mt-5" href="{% url 'contact' %}">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

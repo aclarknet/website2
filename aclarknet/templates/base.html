@@ -1,0 +1,64 @@
+{% load static wagtailuserbar webpack_loader %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}
+                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}
+                {% with self.get_site.site_name as site_name %}
+                    {% if site_name %}- {{ site_name }}{% endif %}
+                {% endwith %}
+            {% endblock %}
+        </title>
+        <meta name="description" content="Professional Python&reg; and open source consulting &amp; programming since 2004">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <meta name="keywords" content="Administration Anaconda Bootstrap Cloud Consulting Data Django DevOps Drupal Information JavaScript Jenkins NetApp Pillow Plone Python Science Systems Technology Wordpress Zope">
+        <meta name="author" content="Alex Clark">
+        <meta property="og:url" content="https://aclark.net/" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="ACLARK.NET" />
+        <meta property="og:image" content="{% static 'img/iStock-1132941044.jpg' %}" />
+        <meta property="og:description" content="Professional Python&reg; and open source consulting &amp; programming since 2004" />
+        <meta property="fb:app_id" content="2346672928993828" />
+
+        {# Global stylesheets #}
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic|Work+Sans:300,400,500,600' rel='stylesheet' type='text/css'>
+
+        <link rel="icon" href="{% static 'img/favicon.ico' %}">
+        {% block extra_css %}
+            {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}">
+        <div id="react-root"></div>
+        {% block header %}{% endblock %}
+
+        {% wagtailuserbar %}
+
+        {% block content %}{% endblock %}
+
+        {# Global javascript #}
+        <script src="https://kit.fontawesome.com/b99cce5dfd.js" crossorigin="anonymous"></script>
+        {% block extra_js %}
+            {# Override this in templates to add extra javascript #}
+        {% endblock %}
+
+        {% block footer %}{% endblock %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-175892000-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-175892000-1');
+        </script>
+    </body>
+</html>

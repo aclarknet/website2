@@ -1,0 +1,10 @@
+{% extends "wagtailadmin/login.html" %}
+{% load static %}
+{% block above_login %}
+<h1>Sign in to Django</h1>
+<a class="button" href="{% url 'login' %}">Sign in</a>
+<h1>Sign in with GitHub</h1>
+<a class="button" href="{% url 'social:begin' 'github' %}">Sign in</a>
+{% endblock %}
+{% block below_login %} 
+{% endblock %}

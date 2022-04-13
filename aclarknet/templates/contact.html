@@ -1,0 +1,26 @@
+{% extends 'root/home_page.html' %}
+{% load static crispy_forms_tags %}
+
+{% block content %}
+    <div class="block block-secondary app-iphone-block">
+      <div class="container">
+        <div class="row app-align-center">
+          <div class="col-md-6 col-sm-12 me-auto pb-5">
+            <h5 class="text-dark text-uppercase text-center mb-5">Contact Us</h5>
+            <form action="" method="post" class="text-left">{% csrf_token %}{{ form|crispy }}
+              <button class="btn btn-lg btn-outline-dark btn-block" type="submit">Send</button>
+            </form>
+          </div>
+          <div class="col-sm-5 mb-5 text-left">
+            <a target="_blank" href="https://www.flickr.com/photos/lorax4096/3954596894"><img class="border border-muted p-4 mb-3" src="{% static 'img/bethesda-fountain.jpg' %}" style="width: 100%;"></a>
+            <p>ACLARK.NET is based in Bethesda, Maryland. We are active participants in the highly innovative, thriving Washington, D.C. technology scene.</p>
+            <p><a class="text-dark" style="text-decoration: none" href="mailto:aclark@aclark.net"><i class="fas fa-envelope"></i>&nbsp;aclark@aclark.net</a></p>
+            <p><a class="text-dark" style="text-decoration: none" target="_blank" href="https://goo.gl/maps/qEiATL78oK83RD5j7"><i class="fas fa-map-marker"></i>&nbsp;Bethesda, MD</a></p>
+            <p><a class="text-dark" style="text-decoration: none" target="_blank" href="https://www.facebook.com/AClarkNet-108556904081744"><i class="fab fa-facebook"></i>&nbspFacebook</a></p>
+            <p><a class="text-dark" style="text-decoration: none" target="_blank" href="https://www.linkedin.com/company/aclarknetllc"><i class="fab fa-linkedin"></i>&nbspLinkedIn</a></p>
+            <p><a class="text-dark" style="text-decoration: none" target="_blank" href="https://twitter.com/aclarknet"><i class="fab fa-twitter"></i>&nbspTwitter</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

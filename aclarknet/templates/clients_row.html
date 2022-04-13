@@ -1,0 +1,73 @@
+    <div class="block app-price-plans">
+      <div class="container text-center">
+
+        <div class="row mb-5 justify-content-center">
+          <div class="col-10 col-md-8 col-lg-6">
+            <h6 class="text-dark text-uppercase mb-2">Clients</h6>
+            <h2>A partial list of valued clients</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3 px-4 pb-2 mb-5">
+            <div class="px-2 mb-2">
+              <ul class="list-unstyled mb-5">
+                <li><h6 class="text-uppercase p-3 text-dark border-top border-bottom">Government</h6></li>
+              </ul>
+            </div>
+
+            <ul class="list-unstyled text-xs-left">
+            {% for client in clients_government %}
+              <li class="py-1">{{ client }}</li>
+            {% endfor %}
+            </ul>
+
+          </div>
+
+          <div class="col-md-3 px-4 pb-2 mb-5">
+            <div class="px-2">
+              <ul class="list-unstyled mb-5">
+                <li><h6 class="text-uppercase p-3 text-dark border-top border-bottom">Nonprofit</h6></li>
+              </ul>
+            </div>
+
+            <ul class="list-unstyled text-xs-left">
+            {% for client in clients_non_profit %}
+              <li class="py-1">{{ client }}</li>
+            {% endfor %}
+            </ul>
+
+          </div>
+
+          <div class="col-md-3 px-4 pb-1 mb-5">
+            <div class="px-2">
+              <ul class="list-unstyled mb-5">
+                <li><h6 class="text-uppercase p-3 text-dark border-top border-bottom">Commercial</h6></li>
+            </div>
+
+            <ul class="list-unstyled text-xs-left">
+            {% for client in clients_private_sector %}
+              <li class="py-1">{{ client }}</li>
+            {% endfor %}
+            </ul>
+
+          </div>
+
+          <div class="col-md-3 px-4 pb-1 mb-5">
+            <div class="px-2">
+              <ul class="list-unstyled mb-5">
+                <li><h6 class="text-uppercase p-3 text-dark border-top border-bottom">Education</h6></li>
+              </ul>
+            </div>
+
+            <ul class="list-unstyled text-xs-left">
+            {% for client in clients_colleges_universities %}
+              <li class="py-1">{{ client }}</li>
+            {% endfor %}
+            </ul>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
