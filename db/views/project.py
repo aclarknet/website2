@@ -1,5 +1,6 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.models import User
+
+# from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from ..context import get_context
@@ -15,6 +16,7 @@ from ..models import (
     Report,
     Task,
     Time,
+    User,
 )
 
 

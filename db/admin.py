@@ -4,6 +4,8 @@ from django.contrib import admin
 from import_export import fields, widgets
 from import_export.admin import ImportExportModelAdmin
 from import_export.resources import ModelResource as ImportExportModelResource
+from django.contrib.auth.admin import UserAdmin
+
 
 from .models import (
     Account,
@@ -18,7 +20,10 @@ from .models import (
     Report,
     Task,
     Time,
+    User,
 )
+
+admin.site.register(User, UserAdmin)
 
 
 def item_inactive(modeladmin, request, queryset):

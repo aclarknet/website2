@@ -8,7 +8,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+
+# from django.contrib.auth.models import User
 from django.core.mail import EmailMessage, send_mail
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
@@ -51,6 +52,7 @@ from ..models import (
     Report,
     Task,
     Time,
+    User,
 )
 from ..serializers import ClientSerializer
 from . import client
