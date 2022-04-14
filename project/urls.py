@@ -9,6 +9,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from search import views as search_views
 from aclarknet import views as aclarknet_views
+
 # from db.models import User
 
 urlpatterns = [
