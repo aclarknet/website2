@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from db.models import Client
+# from db.models import Client
 
 from .forms import ContactForm
 
@@ -21,22 +21,22 @@ def blog(request):
 
 def clients(request):
     context = {}
-    clients_government = Client.objects.filter(
-        tags__name__in=["government"], publish=True
-    )
-    clients_non_profit = Client.objects.filter(
-        tags__name__in=["non-profit"], publish=True
-    )
-    clients_private_sector = Client.objects.filter(
-        tags__name__in=["private-sector"], publish=True
-    )
-    clients_colleges_universities = Client.objects.filter(
-        tags__name__in=["colleges-universities"], publish=True
-    )
-    context["clients_government"] = clients_government
-    context["clients_non_profit"] = clients_non_profit
-    context["clients_private_sector"] = clients_private_sector
-    context["clients_colleges_universities"] = clients_colleges_universities
+    #     clients_government = Client.objects.filter(
+    #         tags__name__in=["government"], publish=True
+    #     )
+    #     clients_non_profit = Client.objects.filter(
+    #         tags__name__in=["non-profit"], publish=True
+    #     )
+    #     clients_private_sector = Client.objects.filter(
+    #         tags__name__in=["private-sector"], publish=True
+    #     )
+    #     clients_colleges_universities = Client.objects.filter(
+    #         tags__name__in=["colleges-universities"], publish=True
+    #     )
+    #     context["clients_government"] = clients_government
+    #     context["clients_non_profit"] = clients_non_profit
+    #     context["clients_private_sector"] = clients_private_sector
+    #     context["clients_colleges_universities"] = clients_colleges_universities
     context["clients_nav"] = True
     return render(request, "clients.html", context)
 

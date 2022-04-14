@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "db",
 ]
 
 MIDDLEWARE = [
@@ -193,4 +192,4 @@ REST_FRAMEWORK = {
 LOGIN_REDIRECT_URL = "/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "db.User"
+# AUTH_USER_MODEL = "db.User"
