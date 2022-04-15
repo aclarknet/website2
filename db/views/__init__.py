@@ -21,6 +21,8 @@ from rest_framework import viewsets
 # from sphinxcontrib.websupport import WebSupport
 from xhtml2pdf import pisa
 
+from project.models import User
+
 from ..context import get_context
 from ..export import render_doc, render_pdf
 from ..forms import (
@@ -52,7 +54,7 @@ from ..models import (
     Report,
     Task,
     Time,
-    User,
+    # User,
 )
 from ..serializers import ClientSerializer
 from . import client
