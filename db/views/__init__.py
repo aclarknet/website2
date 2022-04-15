@@ -18,7 +18,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.text import slugify
 from rest_framework import viewsets
-from sphinxcontrib.websupport import WebSupport
+# from sphinxcontrib.websupport import WebSupport
 from xhtml2pdf import pisa
 
 from ..context import get_context
@@ -378,12 +378,12 @@ def contact_index(request):
     return render(request, "contact_index.html", context)
 
 
-def doc(request):
-    context = {}
-    support = WebSupport(datadir="db/doc/_websupport/data")
-    document = support.get_document("index")
-    context["document"] = document
-    return render(request, "doc.html", context)
+# def doc(request):
+#     context = {}
+#     support = WebSupport(datadir="db/doc/_websupport/data")
+#     document = support.get_document("index")
+#     context["document"] = document
+#     return render(request, "doc.html", context)
 
 
 def error(request):

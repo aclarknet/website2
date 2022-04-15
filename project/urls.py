@@ -58,6 +58,11 @@ urlpatterns = urlpatterns + [
     path("services/", aclarknet_views.services, name="services"),
 ]
 
+# db
+urlpatterns = urlpatterns + [
+    path("db/", include("db.urls", namespace="db")),
+]
+
 urlpatterns = urlpatterns + [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
