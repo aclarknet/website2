@@ -60,7 +60,7 @@ urlpatterns = urlpatterns + [
 
 # db
 urlpatterns = urlpatterns + [
-    path("db/", include("db.urls", namespace="db")),
+    path("db/", include("db.urls")),
 ]
 
 urlpatterns = urlpatterns + [
