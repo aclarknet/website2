@@ -19,15 +19,14 @@
         {% block extra_css %}
             {# Override this in templates to add extra stylesheets #}
         {% endblock %}
+
+        <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
         {% block content %}{% endblock %}
-
-        {# Global javascript #}
-        <script type="text/javascript" src="{% static 'js/project.js' %}"></script>
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
