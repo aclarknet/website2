@@ -395,6 +395,8 @@ django-npm-install-default:
 gitignore-default:
 	echo "bin/\nlib/\npyvenv.cfg\n__pycache__" > .gitignore
 	git add .gitignore
+	git commit -a -m "Add .gitignore"
+	git push
 
 git-branches-default:
 	-for i in $(GIT_BRANCHES) ; do \
@@ -428,6 +430,8 @@ black-default:
 	-black *.py
 	-black $(PROJECT_NAME)/*.py
 	-black $(PROJECT_NAME)/*/*.py
+	-git commit -a -m "A one time black event"
+	git push
 
 flake-default:
 	-flake8 *.py
@@ -486,6 +490,8 @@ usage-default:
 make-default:
 	git add base.mk
 	git add Makefile
+	git commit -a -m "Add project-makefile files"
+	git push
 
 init-default: gitignore make pip-init readme-init 
 
@@ -527,6 +533,8 @@ readme-init-default:
 	@echo $(PROJECT_NAME) > README.rst
 	@echo "================================================================================\n" >> README.rst
 	@git add README.rst
+	git commit -a -m "Add readme"
+	git push
 
 readme-edit-default:
 	vi README.rst
@@ -631,6 +639,9 @@ migrations: django-migrations
 
 .PHONY: npm-install
 npm-install: django-npm-install
+
+.PHONY: readme
+readme: readme-init
 
 .PHONY: serve
 serve: django-serve

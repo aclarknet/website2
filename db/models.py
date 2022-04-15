@@ -4,13 +4,9 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from taggit.managers import TaggableManager
 
-
-class User(AbstractUser):
-    pass
 
 
 class BaseModel(models.Model):
