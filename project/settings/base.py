@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "search",
     "aclarknet",
     "db",
+    "project",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
@@ -193,4 +194,4 @@ REST_FRAMEWORK = {
 LOGIN_REDIRECT_URL = "/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# AUTH_USER_MODEL = "db.User"
+AUTH_USER_MODEL = "project.User"

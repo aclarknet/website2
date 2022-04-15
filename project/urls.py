@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.urls import include, path
 from rest_framework import routers, serializers, viewsets
 from wagtail.admin import urls as wagtailadmin_urls
@@ -10,7 +10,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 from search import views as search_views
 from aclarknet import views as aclarknet_views
 
-# from db.models import User
+from project.models import User
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
